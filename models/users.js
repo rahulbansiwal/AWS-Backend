@@ -1,9 +1,9 @@
 const sequelize=require('../utils/dbconnect');
 const {DataTypes} =  require('sequelize');
 const bcrypt = require('bcrypt');
-require('dotenv').config({path:'../config.env'});
-const salt = process.env.ENCRYPT_SALT;
-
+const {ENCRYPT_SALT} = require('../utils/env');
+console.log(ENCRYPT_SALT);
+const ValidationError = require('../errors/validationError');
 const User = sequelize.define('User',{
     username:{
         type: DataTypes.STRING(255),
@@ -33,6 +33,15 @@ const User = sequelize.define('User',{
             this.setDataValue('last_name',value.toLowerCase().trim());
         }
     },
+    full_name:{
+        type:DataTypes.VIRTUAL,
+        get(){
+            return `${(this.first_name).toUpperCase()} ${(this.last_name).toUpperCase()}`
+        },
+        set(val){
+            throw new ValidationError(400,"invalid writes",'Do not try to set full_name field');
+        }
+    },
     email:{
         type:DataTypes.STRING(255),
         allowNull:false,
@@ -41,13 +50,8 @@ const User = sequelize.define('User',{
     password:{
         type:DataTypes.STRING(300),
         allowNull:false,
-        validate:{
-            isAlphanumeric:{msg:"Password must contains AlphaNumeric values"},
-            isUppercase:{msg:"Password must cotnains an uppercase letter"},
-            len:{args:[6,12],msg:"password is either short or too long!"}
-        },
-        async set(value){
-            const hashedpassword = await bcrypt.hash(value,salt);
+          set(value){
+            const hashedpassword =  bcrypt.hashSync(value,parseInt(ENCRYPT_SALT));
             this.setDataValue('password',hashedpassword);
         }
     }
