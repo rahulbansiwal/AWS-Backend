@@ -5,22 +5,18 @@ const loginRouter = require('./routes/loginRoutes');
 const signupRouter = require('./routes/signupRoutes');
 const {StatusCodes} =  require('http-status-codes');
 //const dbconnect = require('./utils/dbconnect');
+const {errorHandler} = require('./middlewares/errorHandler');
 const {PORT_NUMBER} = require('./utils/env');
+
+
 app.use(bodyParser.json());
-
-
-
-app.use('/login',loginRouter);
 app.use('/signup',signupRouter);
-
-app.use((err,req,res,next)=>{
-    console.log("error is \n"+err);
-    let code =  err.code? err.code:500;
-    let type = err.type? err.type : "Internal Server Error"; 
-    res.status(code).send({"type":type});
-})
+app.use('/user',loginRouter);
 
 
+
+
+app.use(errorHandler);
 app.listen(process.env.PORT_NUMBER,(err)=>{
     if(err){
         console.log(err);

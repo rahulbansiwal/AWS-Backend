@@ -9,14 +9,13 @@ const User = sequelize.define('User',{
         type: DataTypes.STRING(255),
         primaryKey:true,
         allowNull:false
-
     },
     first_name:{
         type:DataTypes.STRING(255),
         allowNull:false,
         get(){
             const rawvalue = this.getDataValue('first_name');
-            return rawvalue ? rawvalue.toUpperCase() : null;
+            return rawvalue ? rawvalue.toUpperCase() : "";
         },
         set(value){
             this.setDataValue('first_name',value.toLowerCase().trim());
@@ -27,7 +26,7 @@ const User = sequelize.define('User',{
         allowNull:false,
         get(){
             const rawvalue = this.getDataValue('last_name');
-            return rawvalue ? rawvalue.toUpperCase() : null;
+            return rawvalue ? rawvalue.toUpperCase() : "";
         },
         set(value){
             this.setDataValue('last_name',value.toLowerCase().trim());

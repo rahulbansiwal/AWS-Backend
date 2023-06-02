@@ -5,31 +5,26 @@ const User = require('../models/users');
 const jwt = require('jsonwebtoken');
 const {JWT_SECRET} = require('../utils/env');
 const bcrypt = require('bcrypt');
+require('express-async-errors');
+
 
 exports.postLoginController = async (req,res,next)=>{
     const {username,password}=req.body;
     if(!username || !password){
-        const error = new ValidationError(StatusCodes.BAD_REQUEST,"invalid input","invalid input");
-        next(error);
+        throw new ValidationError(StatusCodes.BAD_REQUEST,"invalid input","invalid input");
     }
-    const user = await User.findOne({attributes:['username','password'],where:{username}})
+    const user = await User.findByPk(username);
     if(!user){
-        const error = new ValidationError(StatusCodes.NOT_FOUND,`${username} doesn't exsist`,"user not found!");
-            next(error);
+        throw new ValidationError(StatusCodes.NOT_FOUND,`${username} doesn't exsist`,"user not found!");
     }
-    console.log(user);
     const pwdCheck = await bcrypt.compareSync(password,user.password);
+    console.log(pwdCheck);
     if(!pwdCheck){
-         throw new ValidationError(StatusCodes.BAD_REQUEST,`Invalid password`,"invalid password");
-            //next(error);
+        throw new ValidationError(StatusCodes.BAD_REQUEST,`Invalid password`,"invalid password");
     }
-
-    const token =  await jwt.sign({user:user.dataValues.username},JWT_SECRET,{expiresIn:'1h'},(err)=>{
-        if(err){
-            console.log(err);
-             throw new ValidationError(StatusCodes.INTERNAL_SERVER_ERROR,"Something went wrong!","JWT Token generation failed");
-            //next(error);
-        }
-    });
-    res.status(StatusCodes.OK).json({token})
+    const token =  await jwt.sign({user:user.dataValues.username},JWT_SECRET,{expiresIn:'1h'});
+    if(!token){
+        throw new ValidationError(StatusCodes.INTERNAL_SERVER_ERROR,"soemthing went wrong!","JWT token generation failed!");
+    }
+    res.status(StatusCodes.OK).json({token});
 }
