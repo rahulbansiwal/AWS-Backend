@@ -30,5 +30,5 @@ const Comment = sequelize.define('Comment',{
         onUpdate:"NO ACTION"
     }
 });
-
+Comment.sync();
 module.exports = Comment;

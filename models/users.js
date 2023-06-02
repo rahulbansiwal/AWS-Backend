@@ -2,7 +2,6 @@ const sequelize=require('../utils/dbconnect');
 const {DataTypes} =  require('sequelize');
 const bcrypt = require('bcrypt');
 const {ENCRYPT_SALT} = require('../utils/env');
-console.log(ENCRYPT_SALT);
 const ValidationError = require('../errors/validationError');
 const User = sequelize.define('User',{
     username:{
