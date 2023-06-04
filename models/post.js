@@ -1,6 +1,6 @@
 const sequelize = require('../utils/dbconnect');
 const {DataTypes} =  require('sequelize');
-
+const User = require('./users');
 
 const Post = sequelize.define('Post',{
     id:{
@@ -30,4 +30,13 @@ const Post = sequelize.define('Post',{
     }
 });
 
+User.hasMany(Post,
+    {
+    foreignKey: "createdBy",
+    onDelete: "CASCADE",
+    onUpdate:"CASCADE"
+}
+);
+Post.belongsTo(User,{foreignKey:"createdBy"});
+Post.sync();
 module.exports = Post;

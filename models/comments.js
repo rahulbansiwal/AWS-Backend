@@ -1,5 +1,7 @@
 const sequelize = require('../utils/dbconnect');
 const {DataTypes} =  require('sequelize');
+const User = require('./users');
+const Post = require('./post');
 
 const Comment = sequelize.define('Comment',{
     id:{
@@ -30,4 +32,18 @@ const Comment = sequelize.define('Comment',{
         onUpdate:"NO ACTION"
     }
 });
+Post.hasMany(Comment,{
+    foreignKey: "post",
+    onDelete: "CASCADE",
+    onUpdate:"CASCADE"
+})
+Comment.belongsTo(Post,{foreignKey:"post"});
+User.hasMany(Comment,{
+    foreignKey:"commentBy",
+    onDelete:"CASCADE",
+    onUpdate:"CASCADE"
+})
+Comment.belongsTo(User,{foreignKey:"commentBy"});
+Comment.sync();
+
 module.exports = Comment;
