@@ -21,7 +21,7 @@ const Comment = sequelize.define('Comment',{
         allowNull:false
     },
     post:{
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(300),
         references:{
             model:"posts",
             key:"id"
@@ -30,5 +30,4 @@ const Comment = sequelize.define('Comment',{
         onUpdate:"NO ACTION"
     }
 });
-Comment.sync();
 module.exports = Comment;
