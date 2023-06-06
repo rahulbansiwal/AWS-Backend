@@ -7,7 +7,10 @@ const validator = require('validator');
 
 exports.postSignupController = async (req,res,next)=>{
     const {username,password,first_name,last_name,email}= req.body;
-    if(!(validator.isUppercase(password) && validator.isLowercase(password) && validator.isLength(password,{min:6,max:12}))){
+    console.log(validator.isUppercase(password));
+    console.log(validator.isLowercase(password));
+    console.log(validator.isLength(password,{min:6,max:12}))
+    if(!(!validator.isUppercase(password) && !validator.isLowercase(password) && validator.isLength(password,{min:6,max:12}))){
         throw new ValidationError(StatusCodes.BAD_REQUEST,"password doesn't meet the requirment","password validation failed");
     }
     if(!username || !password || !first_name || !last_name || !email){

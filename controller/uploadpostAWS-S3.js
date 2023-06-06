@@ -5,9 +5,8 @@ const ValidationError = require('../errors/validationError');
 const {StatusCodes} = require('http-status-codes');
 const {S3Client} = require('@aws-sdk/client-s3');
 
-const {AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,REGION,BUCKET_NAME} = require('../utils/env');
-const client = new S3Client({AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,REGION});
-
+const {REGION,BUCKET_NAME} = require('../utils/env');
+const client = new S3Client({region:REGION});
 exports.uploadfile = multer({
     storage: multerS3({
         s3:client,

@@ -4,10 +4,9 @@ const multerS3 = require('multer-s3');
 const ValidationError = require('../errors/validationError');
 const {StatusCodes} = require('http-status-codes');
 const {S3Client} = require('@aws-sdk/client-s3');
-const jwt = require('jsonwebtoken');
 
-const {AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,REGION,JWT_SECRET,BUCKET_NAME} = require('../utils/env');
-const client = new S3Client({AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,REGION});
+const {REGION,BUCKET_NAME} = require('../utils/env');
+const client = new S3Client({region:REGION});
 
 exports.updatefile = multer({
     storage: multerS3({

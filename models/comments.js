@@ -44,6 +44,5 @@ User.hasMany(Comment,{
     onUpdate:"CASCADE"
 })
 Comment.belongsTo(User,{foreignKey:"commentBy"});
-Comment.sync();
 
 module.exports = Comment;

@@ -38,5 +38,4 @@ User.hasMany(Post,
 }
 );
 Post.belongsTo(User,{foreignKey:"createdBy"});
-Post.sync();
 module.exports = Post;
