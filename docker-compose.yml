@@ -1,0 +1,14 @@
+services:
+  backend-app:
+    image: aws-ec2
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    env_file: config.env
+    ports:
+      - "80:80"
+    volumes:
+      - ./logs:/app/logs
+    
+    
+    

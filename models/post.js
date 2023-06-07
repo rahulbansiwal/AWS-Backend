@@ -18,7 +18,7 @@ const Post = sequelize.define('Post',{
     createdBy:{
         type:DataTypes.STRING(255),
         references:{
-            model:"users",
+            model:"Users",
             key: "username"
         },
         onDelete:"CASCADE",

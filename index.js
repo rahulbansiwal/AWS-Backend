@@ -15,10 +15,9 @@ const {expresslogger,expressErrorLogger}= require("./errors/loggingerror");
 
 
 /*TO DO
-Add unit testing and test cases
+dockerize the app -- MONOLITHIC
+dockerize the app -- MICROSERVICES
 Add redis cache
-dockerize the app
-deploy to EC2
 */
 
 

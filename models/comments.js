@@ -12,7 +12,7 @@ const Comment = sequelize.define('Comment',{
     commentBy:{
         type:DataTypes.STRING(255),
         references:{
-            model:"users",
+            model:"Users",
             key: "username"
         },
         onDelete:"CASCADE",
@@ -25,7 +25,7 @@ const Comment = sequelize.define('Comment',{
     post:{
         type: DataTypes.STRING(300),
         references:{
-            model:"posts",
+            model:"Posts",
             key:"id"
         },
         onDelete:"CASCADE",
